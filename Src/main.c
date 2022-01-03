@@ -207,7 +207,7 @@ static void ChangeSpeed(void){
       uwCurrentFreq += UINT_ROUND(DELTAFREQ);
       fMotorPeriod = 1.0/ (float)uwCurrentFreq;
       uwMotorPulse = (TIM3_CNTCLK * fMotorPeriod)/2;
-      HAL_Delay(2);
+      HAL_Delay(DELTA_T);
     }
     uwMotorPulse = UINT_ROUND((TIM3_CNTCLK * (((float)CRANKSHAFTDIAMETER * PI / 2.0) / ((float) MOTORSTEPS * (float) MICROSTEPS * (float) wNewSpeed))));
   }
@@ -217,7 +217,7 @@ static void ChangeSpeed(void){
       uwCurrentFreq -= UINT_ROUND(DELTAFREQ);
       fMotorPeriod = 1.0/ (float)uwCurrentFreq;
       uwMotorPulse = (TIM3_CNTCLK * fMotorPeriod)/2;
-      HAL_Delay(2);
+      HAL_Delay(DELTA_T);
     }
     uwMotorPulse = UINT_ROUND((TIM3_CNTCLK * (((float)CRANKSHAFTDIAMETER * PI / 2.0) / ((float) MOTORSTEPS * (float) MICROSTEPS * (float) wNewSpeed))));
     if (wNewSpeed == 0){

@@ -36,6 +36,8 @@
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
+#define INT_ROUND(x)        ((x)>=0?(int32_t)((x)+0.5):(int32_t)((x)-0.5))
+#define UINT_ROUND(x)       (uint32_t)((x)+0.5)
 /* Exported functions ------------------------------------------------------- */
 HAL_StatusTypeDef Init_TIM3(TIM_HandleTypeDef* TIMHandle);
 HAL_StatusTypeDef Init_TIM3_OC(TIM_HandleTypeDef* TIMHandle);
@@ -52,12 +54,21 @@ void GPIOE_Init(void);
 
 // Motor related constants
 #define CRANKSHAFTDIAMETER  30        // diameter in mm
-#define DELTA_T             2         // delta t in ms - time period in which we change motor freqency while accelerating
-#define ACCELERATION        500.0     // acceleration in mm/s2
+//#define DELTA_T             2         // delta t in ms - time period in which we change motor freqency while accelerating
+
+// Acceleration in mm/s. Should be one of the values: 100,200,250,500,1000
+//#define ACCELERATION        100.0     // acceleration in mm/s2
+//#define ACCELERATION        200.0     // acceleration in mm/s2
+#define ACCELERATION        250.0     // acceleration in mm/s2
+//#define ACCELERATION        500.0     // acceleration in mm/s2
+//#define ACCELERATION        1000.0     // acceleration in mm/s2
+// Set the delay so that the delta_speed is always 1ms and delta frerqency is always 68:
+#define DELTA_T 			UINT_ROUND((1000.0 / ACCELERATION))
+
 #define DELTA_SPEED         (ACCELERATION * DELTA_T) / 1000
 #define MOTORSTEPS          200
 #define MICROSTEPS          32
-#define PI                  3.14159
+#define PI                  3.14159265359
 #define DELTAFREQ           DELTA_SPEED / ( (CRANKSHAFTDIAMETER*PI) / (MOTORSTEPS*MICROSTEPS) )
 //#define DELTAFREQ           68        // delta freq for 2ms interval and acceleration a=500mm/s2
 
@@ -65,8 +76,7 @@ void GPIOE_Init(void);
 #define SPEED_167           441
 #define SPEED_1032          71
 
-#define INT_ROUND(x)        ((x)>=0?(int32_t)((x)+0.5):(int32_t)((x)-0.5))
-#define UINT_ROUND(x)       (uint32_t)((x)+0.5)
+
 
 
 //#define USE_TIM3_BASE
