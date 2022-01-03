@@ -45,6 +45,7 @@ HAL_StatusTypeDef Init_TIM3_PWM(TIM_HandleTypeDef* TIMHandle);
 void USART_Init(UART_HandleTypeDef* pUartHandle);
 void Error_Handler(void);
 void GPIOE_Init(void);
+void SetMicrostepping(uint16_t ubMicrostep);
 
 /* Private define ------------------------------------------------------------*/
 #define TIM3_PERIOD         65536U-1U
@@ -52,22 +53,41 @@ void GPIOE_Init(void);
 #define TIM3_CCR3           15U-1U
 #define DATASIZE            4096*8
 
+// GPIO Related constants:
+#define nENABLE_PIN 		GPIO_PIN_8
+#define DIRECTION_PIN 		GPIO_PIN_7
+#define M0_PIN 				GPIO_PIN_9
+#define M1_PIN 				GPIO_PIN_11
+#define M2_PIN 				GPIO_PIN_13
+
+#define MICROSTEP_1		1 // DO NOT USE!!! MOTOR CANNOT RUN AT LOW SPEEDS
+#define MICROSTEP_2		2
+#define MICROSTEP_4		4
+#define MICROSTEP_8		8
+#define MICROSTEP_16	16
+#define MICROSTEP_32	32
+#define MICROSTEPS      MICROSTEP_32
+
+#define LED_GREEN     LED4
+#define LED_BLUE      LED6
+#define LED_ORANGE    LED3
+#define LED_RED       LED5
+
 // Motor related constants
 #define CRANKSHAFTDIAMETER  30        // diameter in mm
-//#define DELTA_T             2         // delta t in ms - time period in which we change motor freqency while accelerating
-
 // Acceleration in mm/s. Should be one of the values: 100,200,250,500,1000
-//#define ACCELERATION        100.0     // acceleration in mm/s2
-//#define ACCELERATION        200.0     // acceleration in mm/s2
-#define ACCELERATION        250.0     // acceleration in mm/s2
-//#define ACCELERATION        500.0     // acceleration in mm/s2
-//#define ACCELERATION        1000.0     // acceleration in mm/s2
+#define ACCELERATION_100        100.0     // acceleration in mm/s2
+#define ACCELERATION_200        200.0     // acceleration in mm/s2
+#define ACCELERATION_250        250.0     // acceleration in mm/s2
+#define ACCELERATION_500        500.0     // acceleration in mm/s2
+#define ACCELERATION_1000       1000.0    // acceleration in mm/s2
+
+#define ACCELERATION ACCELERATION_250
+
 // Set the delay so that the delta_speed is always 1ms and delta frerqency is always 68:
 #define DELTA_T 			UINT_ROUND((1000.0 / ACCELERATION))
-
 #define DELTA_SPEED         (ACCELERATION * DELTA_T) / 1000
 #define MOTORSTEPS          200
-#define MICROSTEPS          32
 #define PI                  3.14159265359
 #define DELTAFREQ           DELTA_SPEED / ( (CRANKSHAFTDIAMETER*PI) / (MOTORSTEPS*MICROSTEPS) )
 //#define DELTAFREQ           68        // delta freq for 2ms interval and acceleration a=500mm/s2
@@ -83,13 +103,7 @@ void GPIOE_Init(void);
 #define USE_TIM3_OC
 //#define USE_TIM3_PWM
 
-#define LED_GREEN     LED4
-#define LED_BLUE      LED6
-#define LED_ORANGE    LED3
-#define LED_RED       LED5
 
-#define nENABLE_PIN 		  GPIO_PIN_8
-#define DIRECTION_PIN 		GPIO_PIN_7
 
 #define DIRCHANGE_TRUE 1
 #define DIRCHANGE_FALSE 0

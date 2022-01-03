@@ -58,6 +58,9 @@ uint32_t uwCurrentFreq = 0;
 
 uint8_t bDirectionChange = DIRCHANGE_FALSE;
 
+
+
+
 float fMotorPeriod;
 
 /* Private function prototypes -----------------------------------------------*/
@@ -126,6 +129,8 @@ int main(void)
   uwMotorPulse = 0;
   uwCurrentFreq = 0;
   wCurrentSpeed = 0;
+
+  SetMicrostepping(MICROSTEPS);
 
   /* Infinite loop */  
   while (1)
