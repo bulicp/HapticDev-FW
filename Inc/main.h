@@ -53,16 +53,17 @@ void GPIOE_Init(void);
 // Motor related constants
 #define CRANKSHAFTDIAMETER  30        // diameter in mm
 #define DELTA_T             2         // delta t in ms - time period in which we change motor freqency while accelerating
-#define ACCELERATION        500.0     // acceleration in mm
+#define ACCELERATION        500.0     // acceleration in mm/s2
 #define DELTA_SPEED         (ACCELERATION * DELTA_T) / 1000
-//#define DELTAFREQ           68        // delta freq for 2ms interval and acceleration a=500mm/s2
-#define SPEED_60            123
-#define SPEED_167           441
-#define SPEED_1032          71
 #define MOTORSTEPS          200
 #define MICROSTEPS          32
 #define PI                  3.14159
-#define DELTAFREQ           1/((CRANKSHAFTDIAMETER*PI) / (MOTORSTEPS*MICROSTEPS))
+#define DELTAFREQ           DELTA_SPEED / ( (CRANKSHAFTDIAMETER*PI) / (MOTORSTEPS*MICROSTEPS) )
+//#define DELTAFREQ           68        // delta freq for 2ms interval and acceleration a=500mm/s2
+
+#define SPEED_60            123
+#define SPEED_167           441
+#define SPEED_1032          71
 
 #define INT_ROUND(x)        ((x)>=0?(int32_t)((x)+0.5):(int32_t)((x)-0.5))
 #define UINT_ROUND(x)       (uint32_t)((x)+0.5)
